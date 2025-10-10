@@ -97,7 +97,7 @@ WORLD_SIZE = (2000, 2000)
 FPS = 60
 
 
-MAX_SPEED = 450
+MAX_SPEED = 250
 ACCELERATION = 1200.0
 FRICTION = 2000.0
 KNOCKBACK_SPEED = 440.0
@@ -108,7 +108,7 @@ OBSTACLE_MIN_DIST = 140
 
 ENEMY_COUNT = 12
 ENEMY_SPAWN_MIN_DIST = 300
-ENEMY_MAX_SPEED = 100
+ENEMY_MAX_SPEED = 150
 ENEMY_ACCELERATION = 900.0
 
 
@@ -139,7 +139,7 @@ TRANSITION_MS = 560          # How long the transformation animation plays (mill
 DARK_ALPHA = 190            # How dark the screen gets at night (0-255)
 
 # Cutscene settings
-CUTSCENE_TEXT_SPEED = 50     # Milliseconds per character
+CUTSCENE_TEXT_SPEED = 25     # Milliseconds per character
 CUTSCENE_BG_COLOR = (20, 20, 40, 220)
 CUTSCENE_BORDER_COLOR = (200, 180, 100)
 CUTSCENE_TEXT_COLOR = (255, 255, 255)
@@ -1543,8 +1543,8 @@ def main():
     if os.path.isfile(HEART_IMG):
         heart_img = load_image(HEART_IMG)
         if heart_img.get_height() > 48:
-            scale = 48 / heart_img.get_height()
-            heart_img = pygame.transform.scale(heart_img, (int(heart_img.get_width() * scale), 48))
+            scale = 24 / heart_img.get_height()
+            heart_img = pygame.transform.scale(heart_img, (int(heart_img.get_width() * scale), 24))
     else:
         heart_img = pygame.Surface((36, 36), pygame.SRCALPHA)
         pygame.draw.polygon(heart_img, (220, 50, 50), [(18, 4), (30, 12), (18, 32), (6, 12)])
