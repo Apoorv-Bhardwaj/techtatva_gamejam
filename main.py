@@ -1,6 +1,6 @@
 """
-Top-down Pygame demo with FIXED night sprites and sky gradient
-All issues resolved with detailed comments for learning
+RENDER GAMEJAM WOLF GAME
+APOORV BHARDWAJ 
 """
 
 import os
@@ -11,13 +11,7 @@ import heapq
 import pygame
 from pygame.math import Vector2
 
-# ===================== CONFIGURATION SECTION =====================
-# This section defines all the settings for your game
-# You can adjust these values to change how the game behaves
 
-# ===================== CONFIGURATION SECTION =====================
-# This section defines all the settings for your game
-# You can adjust these values to change how the game behaves
 
 ASSET_DIR = os.path.join(os.path.dirname(__file__), 'assets')
 MASTER_SHEET = os.path.join(ASSET_DIR, 'player', 'zamc1.png')
@@ -34,11 +28,11 @@ GROUND_TEXTURE = os.path.join(ASSET_DIR, 'ui', 'parallax_bg.png')
 
 SFX_WALKING = os.path.join(ASSET_DIR, 'sound', 'walking.mp3')
 SFX_RUNNING = os.path.join(ASSET_DIR, 'sound', 'running.mp3')
-SFX_HURT = os.path.join(ASSET_DIR, 'sound', 'walking.mp3')
+SFX_HURT = os.path.join(ASSET_DIR, 'sound', 'rds.mp3')
 SFX_HEAL = os.path.join(ASSET_DIR, 'sound', 'heal.mp3')
 SFX_HOWL = os.path.join(ASSET_DIR, 'sound', 'howl.mp3')
 SFX_PUSHBACK = os.path.join(ASSET_DIR, 'sound', 'pushback.mp3')
-SFX_RIP = os.path.join(ASSET_DIR, 'sound', 'walking.mp3')
+SFX_RIP = os.path.join(ASSET_DIR, 'sound', 'rip.mp3')
 
 MUSIC_MENU = os.path.join(ASSET_DIR, 'sound', 'menu.mp3')
 MUSIC_DAY = os.path.join(ASSET_DIR, 'sound', 'day.mp3')
@@ -46,13 +40,11 @@ MUSIC_NIGHT = os.path.join(ASSET_DIR, 'sound', 'night1.wav')
 MUSIC_RESPAWN = os.path.join(ASSET_DIR, 'sound', 'respawn.mp3')
 MUSIC_YOUWON = os.path.join(ASSET_DIR, 'sound', 'youwon.mp3')
 
-# Sprite frame dimensions - adjust these to match your sprite sheet
 FRAME_WIDTH = 64
 FRAME_HEIGHT = 64
 SHEET_SCALE = 1.0
 
-# PLAYER DAY SPRITE SHEET LAYOUT (zamc1.png)
-# Configure which rows contain day animations
+
 PLAYER_SHEET_LAYOUT = [
     {'row': 2, 'state': 'idle', 'facing': 'down',  'frames': 1},
     {'row': 1, 'state': 'idle', 'facing': 'left',  'frames': 1},
@@ -64,8 +56,7 @@ PLAYER_SHEET_LAYOUT = [
     {'row': 0, 'state': 'run',  'facing': 'up',    'frames': 9},
 ]
 
-# PLAYER NIGHT SPRITE SHEET LAYOUT (player_night.png)
-# Configure which rows contain night movement animations
+
 PLAYER_NIGHT_LAYOUT = [
     {'row': 2, 'state': 'idle', 'facing': 'down',  'frames': 1},
     {'row': 3, 'state': 'idle', 'facing': 'left',  'frames': 1},
@@ -77,8 +68,7 @@ PLAYER_NIGHT_LAYOUT = [
     {'row': 0, 'state': 'run',  'facing': 'up',    'frames': 3},
 ]
 
-# TRANSITION ANIMATION LAYOUT (ntransition.png)
-# These frames play during the day-to-night transformation
+
 PLAYER_TRANSITION_LAYOUT = [
     {'row': 2, 'state': 'transition', 'facing': 'down',  'frames': 9},
     {'row': 1, 'state': 'transition', 'facing': 'left',  'frames': 9},
@@ -106,23 +96,22 @@ SCREEN_SIZE = (800, 600)
 WORLD_SIZE = (2000, 2000)
 FPS = 60
 
-# Player movement settings
+
 MAX_SPEED = 450
 ACCELERATION = 1200.0
 FRICTION = 2000.0
 KNOCKBACK_SPEED = 440.0
 
-# Obstacle settings
 OBSTACLE_COUNT = 60
 OBSTACLE_MIN_DIST = 140
 
-# Enemy settings
+
 ENEMY_COUNT = 12
 ENEMY_SPAWN_MIN_DIST = 300
 ENEMY_MAX_SPEED = 100
 ENEMY_ACCELERATION = 900.0
 
-# Navigation grid for enemy pathfinding
+
 NAV_CELL_SIZE = 48
 NAV_EXPAND_CELLS = 1
 PATH_RECALC_INTERVAL = 0.85
@@ -170,11 +159,11 @@ SKY_COLORS = {
 SFX_VOLUME = {
     'walking': 0.3,      # Walking footsteps
     'running': 0.4,      # Running footsteps
-    'hurt': 0.6,         # Player takes damage
-    'heal': 0.5,         # Player gains health
-    'howl': 0.7,         # Night transformation
+    'hurt': 1,         # Player takes damage
+    'heal': 2,         # Player gains health
+    'howl': 1,         # Night transformation
     'pushback': 0.5,     # Hit obstacle
-    'rip': 0.6,          # Enemy defeated
+    'rip': 1,          # Enemy defeated
 }
 
 # Music Volume (background music)
@@ -190,11 +179,8 @@ MUSIC_VOLUME = {
 MASTER_SFX_VOLUME = 1.0    # Overall sound effects volume multiplier
 MASTER_MUSIC_VOLUME = 1.0  # Overall music volume multiplier
 
-# ===================== CAMERA SETTINGS =====================
 CAMERA_SMOOTHING = 0.1      # Lower = smoother (0.05-0.2 recommended)
 CAMERA_LOOKAHEAD = 80       # Pixels ahead of player movement direction
-
-# ===================== SHADER/VISUAL EFFECTS SETTINGS =====================
 # Enable/disable visual effects
 ENABLE_VIGNETTE = True          # Darkens screen edges
 ENABLE_CHROMATIC_ABERRATION = False  # Slight color splitting effect
@@ -214,8 +200,6 @@ SHAKE_DURATION = 200            # Milliseconds
 SHAKE_INTENSITY = 8             # Pixel radius of shake
 SHAKE_ON_HIT = True            # Shake when player is hit
 SHAKE_ON_OBSTACLE = True       # Shake when hitting obstacles
-
-# ===================== GROUND TEXTURE SETTINGS =====================
 GROUND_TILE_SIZE = 256          # Size of each ground texture tile (pixels)
 GROUND_TINT_COLOR = None        # (R, G, B) to tint the ground, None = no tint
 # Example tints:
@@ -228,8 +212,6 @@ PLAYER_PAUSE_ON_CATCH_MS = 800
 
 PLACEMENT_ATTEMPTS_MULT = 30
 
-# ===================== HELPER FUNCTIONS =====================
-# These functions help with common tasks throughout the game
 
 def slice_row(sheet, row_index, frame_w, frame_h, frames_count=None):
     """
@@ -1412,10 +1394,6 @@ class Enemy(pygame.sprite.Sprite):
 # ------------------------------ placement utils ------------------------------
 
 def place_obstacles(count, avoid_pos, min_dist, world_size, asset_pairs):
-    """
-    Places obstacles around the world while avoiding the player's start area
-    asset_pairs: list of (base_surface, top_surface_or_none)
-    """
     obstacles = pygame.sprite.Group()
     attempts = 0
     placed = 0
@@ -1442,9 +1420,6 @@ def place_obstacles(count, avoid_pos, min_dist, world_size, asset_pairs):
 
 
 def place_enemies(count, avoid_pos, min_dist, world_size, nav_grid, cell_size, enemy_anims_list):
-    """
-    Place enemies with randomized animation sets from enemy_anims_list
-    """
     enemies = pygame.sprite.Group()
     attempts = 0
     placed = 0
