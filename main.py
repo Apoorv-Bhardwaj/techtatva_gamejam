@@ -75,8 +75,7 @@ PLAYER_TRANSITION_LAYOUT = [
     {'row': 3, 'state': 'transition', 'facing': 'right', 'frames': 9},
     {'row': 0, 'state': 'transition', 'facing': 'up',    'frames': 9},
 ]
-
-# Enemy sprite sheet layout
+0
 ENEMY_SHEET_LAYOUT = [
     {'row': 2, 'state': 'idle', 'facing': 'down',  'frames': 1},
     {'row': 1, 'state': 'idle', 'facing': 'left',  'frames': 1},
@@ -88,74 +87,47 @@ ENEMY_SHEET_LAYOUT = [
     {'row': 0, 'state': 'run',  'facing': 'up',    'frames': 9},
 ]
 
-# Animation speeds (in milliseconds)
 FRAME_DURATION = {'idle': 220, 'run': 100, 'transition': 140}
-
-# Game window and world settings
 SCREEN_SIZE = (800, 600)
 WORLD_SIZE = (2000, 2000)
 FPS = 60
-
-
 MAX_SPEED = 250
 ACCELERATION = 1200.0
 FRICTION = 2000.0
 KNOCKBACK_SPEED = 440.0
-
 OBSTACLE_COUNT = 60
 OBSTACLE_MIN_DIST = 140
-
-
 ENEMY_COUNT = 12
 ENEMY_SPAWN_MIN_DIST = 300
 ENEMY_MAX_SPEED = 150
 ENEMY_ACCELERATION = 900.0
-
-
 NAV_CELL_SIZE = 48
 NAV_EXPAND_CELLS = 1
 PATH_RECALC_INTERVAL = 0.85
 PLAYER_MOVE_REPATH_DIST = 64
-
-# Enemy separation (prevents enemies from bunching up)
 SEPARATION_RADIUS = 36.0
 SEPARATION_FORCE = 420.0
-
-# Player health and combat
 PLAYER_MAX_HEARTS = 5
 HIT_FLASH_MS = 200
-
-# Sprint system
 SPRINT_MULTIPLIER = 1.60
 STAMINA_MAX = 5.0
 STAMINA_DRAIN_PER_SEC = 2.5
 STAMINA_RECOVER_PER_SEC = 0.3
 STAMINA_MIN_TO_SPRINT = 0.2
-
-# Day/Night cycle settings
 DAY_LENGTH = 20.0            # How long daytime lasts (seconds)
 NIGHT_LENGTH = 12.0          # How long nighttime lasts (seconds)
 TRANSITION_MS = 560          # How long the transformation animation plays (milliseconds)
 DARK_ALPHA = 190            # How dark the screen gets at night (0-255)
-
-# Cutscene settings
 CUTSCENE_TEXT_SPEED = 25     # Milliseconds per character
 CUTSCENE_BG_COLOR = (20, 20, 40, 220)
 CUTSCENE_BORDER_COLOR = (200, 180, 100)
 CUTSCENE_TEXT_COLOR = (255, 255, 255)
-
-# Sky gradient colors for time of day
 SKY_COLORS = {
     'sunrise': (255, 140, 80),      # Orange sunrise
     'afternoon': (255, 220, 100),   # Yellow afternoon
     'sunset': (255, 120, 60),       # Orange sunset
     'night': (40, 60, 120)          # Blue night
 }
-
-# ===================== AUDIO SETTINGS =====================
-# Adjust these values to control volume (0.0 = mute, 1.0 = full volume)
-
-# Sound Effects Volume
 SFX_VOLUME = {
     'walking': 0.3,      # Walking footsteps
     'running': 0.4,      # Running footsteps
@@ -165,7 +137,6 @@ SFX_VOLUME = {
     'pushback': 0.5,     # Hit obstacle
     'rip': 1,          # Enemy defeated
 }
-
 # Music Volume (background music)
 MUSIC_VOLUME = {
     'menu': 0.5,         # Menu screen music
@@ -174,49 +145,34 @@ MUSIC_VOLUME = {
     'respawn': 0.5,      # Death screen music
     'youwon': 0.6,       # Victory screen music
 }
-
-# Master volume controls (applies to all sounds)
 MASTER_SFX_VOLUME = 1.0    # Overall sound effects volume multiplier
 MASTER_MUSIC_VOLUME = 1.0  # Overall music volume multiplier
-
 CAMERA_SMOOTHING = 0.1      # Lower = smoother (0.05-0.2 recommended)
 CAMERA_LOOKAHEAD = 80       # Pixels ahead of player movement direction
-# Enable/disable visual effects
 ENABLE_VIGNETTE = True          # Darkens screen edges
 ENABLE_CHROMATIC_ABERRATION = False  # Slight color splitting effect
 ENABLE_SCANLINES = False        # Retro scanline effect (subtle)
 ENABLE_BLOOM = True             # Glow effect on bright areas
 ENABLE_CAMERA_SHAKE = True      # Screen shake on hits
-
-# Visual effect intensities
 VIGNETTE_INTENSITY = 0.6        # 0.0 = none, 1.0 = very dark edges
 CHROMATIC_INTENSITY = 0.5      # Pixel offset for color split
 SCANLINE_INTENSITY = 0.15       # 0.0 = invisible, 1.0 = very visible
 BLOOM_THRESHOLD = 180           # Brightness level to start glowing (0-255)
 BLOOM_INTENSITY = 0.3           # How strong the glow is
-
-# Camera shake settings
 SHAKE_DURATION = 200            # Milliseconds
 SHAKE_INTENSITY = 8             # Pixel radius of shake
 SHAKE_ON_HIT = True            # Shake when player is hit
 SHAKE_ON_OBSTACLE = True       # Shake when hitting obstacles
 GROUND_TILE_SIZE = 256          # Size of each ground texture tile (pixels)
 GROUND_TINT_COLOR = None        # (R, G, B) to tint the ground, None = no tint
-# Example tints:
-# GROUND_TINT_COLOR = (200, 220, 200)  # Slight green tint
-# GROUND_TINT_COLOR = (180, 200, 220)  # Slight blue tint
-
-# Enemy catching mechanics
-ENEMY_DESPAWN_MS = 700      # Time before caught enemy disappears
+ENEMY_DESPAWN_MS = 700  
 PLAYER_PAUSE_ON_CATCH_MS = 800
 
 PLACEMENT_ATTEMPTS_MULT = 30
 
 
 def slice_row(sheet, row_index, frame_w, frame_h, frames_count=None):
-    """
-    Extracts animation frames from a single row of a sprite sheet
-    """
+
     sheet_w, sheet_h = sheet.get_size()
     max_cols = sheet_w // frame_w
     if frames_count is None:
@@ -231,10 +187,6 @@ def slice_row(sheet, row_index, frame_w, frame_h, frames_count=None):
     return frames
 
 def build_animations_from_master(path, frame_w, frame_h, layout, scale=1.0):
-    """
-    Builds a complete animation dictionary from a sprite sheet
-    Returns a dict like: {'idle': {'down': [frames], 'up': [frames]...}, 'run': {...}}
-    """
     # If the sprite sheet file doesn't exist, create placeholder animations
     if not os.path.isfile(path):
         fallback = pygame.Surface((frame_w, frame_h), pygame.SRCALPHA)
@@ -257,19 +209,15 @@ def build_animations_from_master(path, frame_w, frame_h, layout, scale=1.0):
         facing = entry['facing']
         frames_count = entry.get('frames', None)
         
-        # Extract frames from this row
         frames = slice_row(sheet, row, frame_w, frame_h, frames_count)
         
-        # Scale frames if needed
         if scale != 1.0:
             frames = [pygame.transform.scale(f, (int(f.get_width()*scale), int(f.get_height()*scale))) for f in frames]
         
-        # Store in animation dictionary
         if state not in anims:
             anims[state] = {}
         anims[state][facing] = frames
     
-    # Make sure all required animations exist (fallback for missing ones)
     for st in ['idle', 'run', 'transition']:
         if st not in anims:
             anims[st] = {}
@@ -283,9 +231,7 @@ def build_animations_from_master(path, frame_w, frame_h, layout, scale=1.0):
     return anims
 
 def facing_from_vector(vec):
-    """
-    Determines which direction the character should face based on velocity
-    """
+
     if vec.length_squared() == 0:
         return 'down'
     vx, vy = vec.x, vec.y
@@ -295,55 +241,44 @@ def facing_from_vector(vec):
         return 'down' if vy > 0 else 'up'
 
 def lerp_color(c1, c2, t):
-    """Linear interpolation between two colors"""
+
     r = int(c1[0] + (c2[0] - c1[0]) * t)
     g = int(c1[1] + (c2[1] - c1[1]) * t)
     b = int(c1[2] + (c2[2] - c1[2]) * t)
     return (r, g, b)
 
 def get_sky_color(cycle_time, day_len, night_len):
-    """
-    Returns the sky color based on time of day
-    Smoothly transitions: sunrise -> afternoon -> sunset -> night
-    """
+
     cycle_total = day_len + night_len
     t = cycle_time % cycle_total
     
     if t < day_len:
-        # Daytime progression
         day_progress = t / day_len
         
         if day_progress < 0.2:
-            # Sunrise (0-20% of day)
             blend = day_progress / 0.2
             return lerp_color(SKY_COLORS['sunrise'], SKY_COLORS['afternoon'], blend)
         elif day_progress < 0.8:
-            # Afternoon (20-80% of day)
             return SKY_COLORS['afternoon']
         else:
-            # Sunset (80-100% of day)
             blend = (day_progress - 0.8) / 0.2
             return lerp_color(SKY_COLORS['afternoon'], SKY_COLORS['sunset'], blend)
     else:
-        # Nighttime
         night_progress = (t - day_len) / night_len
         
         if night_progress < 0.2:
-            # Transition to night (first 20% of night)
             blend = night_progress / 0.2
             return lerp_color(SKY_COLORS['sunset'], SKY_COLORS['night'], blend)
         elif night_progress < 0.8:
-            # Deep night (20-80% of night)
             return SKY_COLORS['night']
         else:
-            # Transition to sunrise (last 20% of night)
             blend = (night_progress - 0.8) / 0.2
             return lerp_color(SKY_COLORS['night'], SKY_COLORS['sunrise'], blend)
 
 # ===================== CUTSCENE SYSTEM =====================
 
 class Cutscene:
-    """Handles text-based cutscenes with typing effect"""
+
     def __init__(self, text, font):
         self.full_text = text
         self.displayed_text = ""
@@ -356,14 +291,12 @@ class Cutscene:
         self.start_time = pygame.time.get_ticks()
         
     def update(self):
-        """Updates the typing animation"""
+
         now = pygame.time.get_ticks()
         
-        # Allow skipping after delay
         if now - self.start_time > self.skip_delay:
             self.can_skip = True
         
-        # Type characters
         if self.char_index < len(self.full_text):
             if now - self.last_char_time >= CUTSCENE_TEXT_SPEED:
                 self.displayed_text += self.full_text[self.char_index]
@@ -372,8 +305,7 @@ class Cutscene:
         else:
             self.finished = True
     
-    def skip(self):
-        """Skip to full text"""
+
         if self.can_skip:
             self.displayed_text = self.full_text
             self.char_index = len(self.full_text)
@@ -381,21 +313,17 @@ class Cutscene:
     
     def draw(self, screen, screen_size):
         """Draws the cutscene textbox"""
-        # Textbox dimensions
         box_width = screen_size[0] - 100
         box_height = 140
         box_x = 50
         box_y = screen_size[1] - box_height - 40
         
-        # Draw box background
         box_surf = pygame.Surface((box_width, box_height), pygame.SRCALPHA)
         box_surf.fill(CUTSCENE_BG_COLOR)
         screen.blit(box_surf, (box_x, box_y))
         
-        # Draw border
         pygame.draw.rect(screen, CUTSCENE_BORDER_COLOR, (box_x, box_y, box_width, box_height), 4)
         
-        # Word wrap and render text
         words = self.displayed_text.split(' ')
         lines = []
         current_line = ""
@@ -412,14 +340,12 @@ class Cutscene:
         if current_line:
             lines.append(current_line)
         
-        # Draw text lines
         text_y = box_y + 20
         for line in lines:
             text_surf = self.font.render(line, True, CUTSCENE_TEXT_COLOR)
             screen.blit(text_surf, (box_x + 20, text_y))
             text_y += 30
         
-        # Draw continue indicator if finished
         if self.finished:
             indicator_font = pygame.font.SysFont(None, 24)
             indicator = indicator_font.render("Press SPACE to continue...", True, (200, 200, 100))
@@ -431,12 +357,10 @@ class Cutscene:
 
 def draw_key_icon(screen, x, y, key_text, size=40):
     """Draws a keyboard key icon"""
-    # Draw key background
     key_rect = pygame.Rect(x, y, size, size)
     pygame.draw.rect(screen, (60, 60, 80), key_rect, border_radius=5)
     pygame.draw.rect(screen, (100, 100, 120), key_rect, 3, border_radius=5)
     
-    # Draw key text
     key_font = pygame.font.SysFont(None, 28, bold=True)
     text_surf = key_font.render(key_text, True, (220, 220, 240))
     text_rect = text_surf.get_rect(center=key_rect.center)
@@ -473,14 +397,12 @@ def draw_control_hints(screen, screen_size):
 
 
 def create_night_cutscene(font):
-    """Creates the night transformation cutscene"""
     text = "Hahahaha... trying to hunt me down just because I have another side? Well, who doesn't! look at you!"
     return Cutscene(text, font)
 
-# ===================== AUDIO SYSTEM =====================
 
 class AudioManager:
-    """Manages all game audio - music and sound effects"""
+
     def __init__(self):
         pygame.mixer.init()
         self.sounds = {}
@@ -501,28 +423,28 @@ class AudioManager:
         return False
     
     def play_sound(self, name, loops=0):
-        """Play a sound effect (loops: 0 = once, -1 = infinite)"""
+
         if name in self.sounds:
             self.sounds[name].play(loops=loops)
     
     def stop_sound(self, name):
-        """Stop a specific sound effect"""
+
         if name in self.sounds:
             self.sounds[name].stop()
     
     def play_movement_sound(self, sound_name):
-        """Play movement sound on dedicated channel"""
+
         if sound_name in self.sounds:
             if self.movement_channel is None or not self.movement_channel.get_busy():
                 self.movement_channel = self.sounds[sound_name].play(loops=-1)
     
     def stop_movement_sounds(self):
-        """Stop all movement sounds"""
+
         if self.movement_channel and self.movement_channel.get_busy():
             self.movement_channel.stop()
     
     def play_music(self, path, volume=1.0, loops=-1):
-        """Play background music (loops: -1 = infinite, 0 = once)"""
+
         if self.current_music == path and pygame.mixer.music.get_busy():
             return  # Already playing this track
         
@@ -536,25 +458,21 @@ class AudioManager:
                 print(f"Failed to load music {path}: {e}")
     
     def stop_music(self):
-        """Stop currently playing music"""
         pygame.mixer.music.stop()
         self.current_music = None
     
     def fade_out_music(self, ms=1000):
-        """Fade out music over specified milliseconds"""
         pygame.mixer.music.fadeout(ms)
 
 # ===================== SHADER/VISUAL EFFECTS =====================
 
 class ShaderEffect:
-    """Applies post-processing visual effects to the screen"""
     def __init__(self, screen_size):
         self.screen_w, self.screen_h = screen_size
         self.vignette_surf = self._create_vignette() if ENABLE_VIGNETTE else None
         self.scanline_surf = self._create_scanlines() if ENABLE_SCANLINES else None
     
     def _create_vignette(self):
-        """Creates a radial vignette (darkened edges) effect"""
         surf = pygame.Surface((self.screen_w, self.screen_h), pygame.SRCALPHA)
         center_x, center_y = self.screen_w // 2, self.screen_h // 2
         max_dist = math.hypot(center_x, center_y)
@@ -568,7 +486,6 @@ class ShaderEffect:
         return surf
     
     def _create_scanlines(self):
-        """Creates subtle horizontal scanlines for retro effect"""
         surf = pygame.Surface((self.screen_w, self.screen_h), pygame.SRCALPHA)
         alpha = int(255 * SCANLINE_INTENSITY)
         
@@ -578,11 +495,9 @@ class ShaderEffect:
         return surf
     
     def apply_chromatic_aberration(self, screen):
-        """Applies chromatic aberration (color splitting) effect"""
         if not ENABLE_CHROMATIC_ABERRATION or CHROMATIC_INTENSITY <= 0:
             return
         
-        # Create color channel surfaces
         temp = screen.copy()
         offset = int(CHROMATIC_INTENSITY)
         
@@ -591,7 +506,6 @@ class ShaderEffect:
         red_surf.blit(temp, (-offset, 0))
         red_surf.set_colorkey((0, 0, 0))
         
-        # Blue channel shifted right
         blue_surf = pygame.Surface((self.screen_w, self.screen_h))
         blue_surf.blit(temp, (offset, 0))
         blue_surf.set_colorkey((0, 0, 0))
@@ -601,15 +515,12 @@ class ShaderEffect:
         screen.blit(blue_surf, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
     
     def apply_bloom(self, screen):
-        """Applies a subtle bloom/glow effect to bright areas"""
         if not ENABLE_BLOOM:
             return
         
-        # Create a smaller surface for bloom (performance optimization)
         small_w, small_h = self.screen_w // 4, self.screen_h // 4
         bloom_surf = pygame.transform.smoothscale(screen, (small_w, small_h))
         
-        # Threshold bright pixels
         bloom_pixels = pygame.surfarray.pixels3d(bloom_surf)
         mask = (bloom_pixels[:,:,0] + bloom_pixels[:,:,1] + bloom_pixels[:,:,2]) / 3 > BLOOM_THRESHOLD
         bloom_pixels[:,:,0] = bloom_pixels[:,:,0] * mask
@@ -617,35 +528,26 @@ class ShaderEffect:
         bloom_pixels[:,:,2] = bloom_pixels[:,:,2] * mask
         del bloom_pixels  # Release the pixel lock
         
-        # Scale back up and blur (approximate with smoothscale)
         bloom_surf = pygame.transform.smoothscale(bloom_surf, (self.screen_w, self.screen_h))
         bloom_surf.set_alpha(int(255 * BLOOM_INTENSITY))
         
-        # Blend bloom onto screen
         screen.blit(bloom_surf, (0, 0), special_flags=pygame.BLEND_RGB_ADD)
     
     def apply_effects(self, screen):
-        """Apply all enabled post-processing effects"""
-        # Chromatic aberration (subtle color separation)
         if ENABLE_CHROMATIC_ABERRATION:
             self.apply_chromatic_aberration(screen)
         
-        # Bloom effect (glow on bright areas)
         if ENABLE_BLOOM:
             self.apply_bloom(screen)
         
-        # Vignette (darken edges)
         if ENABLE_VIGNETTE and self.vignette_surf:
             screen.blit(self.vignette_surf, (0, 0))
         
-        # Scanlines
         if ENABLE_SCANLINES and self.scanline_surf:
             screen.blit(self.scanline_surf, (0, 0))
 
-# ===================== GROUND TEXTURE SYSTEM =====================
 
 class GroundRenderer:
-    """Manages and renders tiled ground texture"""
     def __init__(self, texture_path, world_size, tile_size=GROUND_TILE_SIZE):
         self.world_w, self.world_h = world_size
         self.tile_size = tile_size
@@ -653,7 +555,6 @@ class GroundRenderer:
         self.tint = GROUND_TINT_COLOR
         
     def _load_texture(self, path):
-        """Load and prepare ground texture"""
         if os.path.isfile(path):
             try:
                 texture = pygame.image.load(path).convert()
@@ -675,12 +576,9 @@ class GroundRenderer:
             return self._create_fallback_texture()
     
     def _create_fallback_texture(self):
-        """Create a simple grass-like fallback texture"""
         texture = pygame.Surface((self.tile_size, self.tile_size))
-        # Base grass color
         texture.fill((50, 120, 50))
         
-        # Add some variation/noise
         for _ in range(100):
             x = random.randint(0, self.tile_size - 1)
             y = random.randint(0, self.tile_size - 1)
@@ -695,22 +593,17 @@ class GroundRenderer:
         return texture
     
     def draw(self, screen, camera_offset):
-        """Draw ground tiles visible on screen"""
-        # Calculate which tiles are visible
         start_tile_x = max(0, int(camera_offset.x) // self.tile_size)
         start_tile_y = max(0, int(camera_offset.y) // self.tile_size)
         
-        # Calculate how many tiles fit on screen (with buffer)
         tiles_x = (screen.get_width() // self.tile_size) + 2
         tiles_y = (screen.get_height() // self.tile_size) + 2
         
         end_tile_x = min(start_tile_x + tiles_x, (self.world_w // self.tile_size) + 1)
         end_tile_y = min(start_tile_y + tiles_y, (self.world_h // self.tile_size) + 1)
         
-        # Draw visible tiles
         for ty in range(start_tile_y, end_tile_y):
             for tx in range(start_tile_x, end_tile_x):
-                # Calculate screen position
                 world_x = tx * self.tile_size
                 world_y = ty * self.tile_size
                 screen_x = world_x - int(camera_offset.x)
@@ -721,7 +614,6 @@ class GroundRenderer:
 # ===================== GAME CLASSES =====================
 
 class Camera:
-    """Handles scrolling view to follow the player with smooth interpolation"""
     def __init__(self, screen_size, world_size):
         self.screen_w, self.screen_h = screen_size
         self.world_w, self.world_h = world_size
@@ -732,31 +624,24 @@ class Camera:
         self.shake_intensity = 0
     
     def update(self, target_rect, target_velocity=None):
-        """Centers camera on target with smooth follow and optional lookahead"""
-        # Calculate base target position
         target_x = target_rect.centerx - self.screen_w // 2
         target_y = target_rect.centery - self.screen_h // 2
         
-        # Add lookahead based on movement direction
         if target_velocity and CAMERA_LOOKAHEAD > 0:
             if target_velocity.length_squared() > 100:  # Only if moving significantly
                 look_dir = target_velocity.normalize()
                 target_x += look_dir.x * CAMERA_LOOKAHEAD
                 target_y += look_dir.y * CAMERA_LOOKAHEAD
         
-        # Clamp to world bounds
         target_x = max(0, min(target_x, self.world_w - self.screen_w))
         target_y = max(0, min(target_y, self.world_h - self.screen_h))
         
-        # Store target for smooth interpolation
         self.target_offset.x = target_x
         self.target_offset.y = target_y
         
-        # Smooth camera movement (lerp)
         self.offset.x += (self.target_offset.x - self.offset.x) * CAMERA_SMOOTHING
         self.offset.y += (self.target_offset.y - self.offset.y) * CAMERA_SMOOTHING
         
-        # Apply camera shake if active
         now = pygame.time.get_ticks()
         if ENABLE_CAMERA_SHAKE and now < self.shake_until:
             progress = 1.0 - (self.shake_until - now) / SHAKE_DURATION
@@ -768,20 +653,17 @@ class Camera:
             self.shake_offset.y = 0
     
     def apply(self, rect):
-        """Converts world position to screen position with shake"""
         return rect.move(
             -int(self.offset.x + self.shake_offset.x), 
             -int(self.offset.y + self.shake_offset.y)
         )
     
     def shake(self, intensity=SHAKE_INTENSITY, duration=SHAKE_DURATION):
-        """Trigger camera shake effect"""
         if ENABLE_CAMERA_SHAKE:
             self.shake_intensity = intensity
             self.shake_until = pygame.time.get_ticks() + duration
 
 class Obstacle(pygame.sprite.Sprite):
-    """Static obstacles that block movement"""
     def __init__(self, base_image, top_image, pos):
         super().__init__()
         self.base_image = base_image
@@ -792,7 +674,7 @@ class Obstacle(pygame.sprite.Sprite):
         self.top_rect = self.top_image.get_rect(center=pos) if self.top_image else None
 
 class Player(pygame.sprite.Sprite):
-    """The main player character"""
+
     def __init__(self, animations, pos, frame_durations=None, audio_manager=None):
         super().__init__()
         self.anim = animations
@@ -803,7 +685,6 @@ class Player(pygame.sprite.Sprite):
         self.last_frame_time = pygame.time.get_ticks()
         self.audio = audio_manager
         
-        # Set initial animation frames
         self.current_frames = self.anim[self.state][self.facing]
         self.image = self.current_frames[self.frame_idx]
         self.rect = self.image.get_rect(center=pos)
@@ -819,22 +700,16 @@ class Player(pygame.sprite.Sprite):
         self.hearts = PLAYER_MAX_HEARTS
         
         # Status effects
-        self.flash_until = 0  # Red flash when hit
-        self.freeze_until = 0  # Frozen from obstacle collision
-        self.pause_until = 0   # Paused after catching enemy
+        self.flash_until = 0  #
+        self.freeze_until = 0  # 
+        self.pause_until = 0   #
         
-        # IMPORTANT: Track if we're playing transition animation
         self.playing_night_animation = False
         
-        # Movement sound tracking
         self.is_moving = False
         self.is_sprinting = False
 
     def play_transition_animation(self):
-        """
-        Starts the day-to-night transformation animation
-        This is called when day changes to night
-        """
         self.playing_night_animation = True
         self.state = 'transition'
         self.frame_idx = 0
@@ -843,29 +718,21 @@ class Player(pygame.sprite.Sprite):
         self.image = self.current_frames[self.frame_idx]
         self.mask = pygame.mask.from_surface(self.image)
         
-        # Pause player for the duration of the animation
         self.pause_until = pygame.time.get_ticks() + TRANSITION_MS
         
-        # Play howl sound
         if self.audio:
             self.audio.play_sound('howl')
 
     def stop_night_animation(self):
-        """
-        Stops the transition animation and returns to normal
-        """
         self.playing_night_animation = False
         self.state = 'idle'
         self.frame_idx = 0
         self.last_frame_time = pygame.time.get_ticks()
 
     def update(self, dt, keys, allow_control=True):
-        """Updates player movement, animation, and status"""
         now_ms = pygame.time.get_ticks()
         
-        # Check if player is paused (from catching enemy or night animation)
         if now_ms < self.pause_until:
-            # Still allow some velocity decay for smooth stopping
             self.vel *= 0.9
             self.pos += self.vel * dt
             self.rect.center = (int(self.pos.x), int(self.pos.y))
@@ -877,24 +744,20 @@ class Player(pygame.sprite.Sprite):
             self.is_sprinting = False
             return
         
-        # Check if player is frozen (from hitting obstacle)
         if now_ms < self.freeze_until:
             self.vel *= 0.9
             self.pos += self.vel * dt
             self.rect.center = (int(self.pos.x), int(self.pos.y))
             self._update_animation()
-            # Stop movement sounds when frozen
             if self.audio:
                 self.audio.stop_movement_sounds()
             self.is_moving = False
             self.is_sprinting = False
             return
         
-        # Stop night animation if it's done
         if self.playing_night_animation and now_ms >= self.pause_until:
             self.stop_night_animation()
         
-        # Normal movement (only if not in night animation)
         if not self.playing_night_animation:
             sprinting = (keys[pygame.K_LSHIFT] or keys[pygame.K_RSHIFT]) and self.stamina > STAMINA_MIN_TO_SPRINT and allow_control
             move = Vector2(0, 0)
@@ -907,10 +770,8 @@ class Player(pygame.sprite.Sprite):
             
             speed_cap = MAX_SPEED * (SPRINT_MULTIPLIER if sprinting else 1.0)
             
-            # Track movement state for sounds
             is_currently_moving = move.length_squared() > 0
             
-            # Apply movement
             if is_currently_moving:
                 move = move.normalize()
                 desired = move * speed_cap
@@ -928,24 +789,20 @@ class Player(pygame.sprite.Sprite):
                     else:
                         self.vel -= self.vel.normalize() * decel
             
-            # Cap speed
             if self.vel.length() > speed_cap:
                 self.vel.scale_to_length(speed_cap)
             
-            # Update position
             self.pos += self.vel * dt
             self.pos.x = max(0, min(self.pos.x, WORLD_SIZE[0]))
             self.pos.y = max(0, min(self.pos.y, WORLD_SIZE[1]))
             self.rect.center = (int(self.pos.x), int(self.pos.y))
             
-            # Update state based on movement (only if not playing night animation)
             if self.vel.length_squared() > 10:
                 self.state = 'run'
                 self.facing = facing_from_vector(self.vel)
             else:
                 self.state = 'idle'
             
-            # Handle movement sounds
             if self.audio:
                 if is_currently_moving and self.vel.length() > 10:
                     if sprinting and not self.is_sprinting:
@@ -975,11 +832,9 @@ class Player(pygame.sprite.Sprite):
                 self.stamina += STAMINA_RECOVER_PER_SEC * dt
                 self.stamina = min(STAMINA_MAX, self.stamina)
         
-        # Always update animation
         self._update_animation()
 
     def _update_animation(self):
-        """Updates the current animation frame"""
         now = pygame.time.get_ticks()
         
         # Get current animation frames
@@ -1006,7 +861,6 @@ class Player(pygame.sprite.Sprite):
             self.mask = pygame.mask.from_surface(self.image)
 
     def collide_with_obstacle(self, obstacle):
-        """Handles collision with obstacles"""
         dir_vec = (self.pos - Vector2(obstacle.collision_rect.center))
         if dir_vec.length_squared() == 0:
             dir_vec = Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
@@ -1021,7 +875,6 @@ class Player(pygame.sprite.Sprite):
         return True  # Signal that collision occurred
 
     def hit_by_enemy(self, enemy):
-        """Handles being hit by an enemy"""
         dir_vec = (self.pos - Vector2(enemy.rect.center))
         if dir_vec.length_squared() == 0:
             dir_vec = Vector2(random.uniform(-1, 1), random.uniform(-1, 1))
@@ -1036,19 +889,16 @@ class Player(pygame.sprite.Sprite):
         return True  # Signal that hit occurred
     
     def gain_heart(self):
-        """Called when player gains a heart"""
         if self.audio:
             self.audio.play_sound('heal')
 
 # ===================== NAVIGATION & PATHFINDING =====================
 
 def build_nav_grid(world_size, cell_size, obstacles, expand_cells=1):
-    """Creates a grid for enemy pathfinding, marking obstacle cells as blocked"""
     cols = math.ceil(world_size[0] / cell_size)
     rows = math.ceil(world_size[1] / cell_size)
     grid = [[0 for _ in range(cols)] for _ in range(rows)]
     
-    # Mark cells with obstacles as blocked (1)
     for ob in obstacles:
         r = ob.collision_rect
         left = max(0, r.left // cell_size)
@@ -1056,7 +906,6 @@ def build_nav_grid(world_size, cell_size, obstacles, expand_cells=1):
         top = max(0, r.top // cell_size)
         bottom = min(rows-1, r.bottom // cell_size)
         
-        # Expand blocked area slightly for safety
         for cy in range(max(0, top - expand_cells), min(rows, bottom + 1 + expand_cells)):
             for cx in range(max(0, left - expand_cells), min(cols, right + 1 + expand_cells)):
                 grid[cy][cx] = 1
@@ -1064,24 +913,20 @@ def build_nav_grid(world_size, cell_size, obstacles, expand_cells=1):
     return grid
 
 def world_to_cell(pos, cell_size):
-    """Converts world position to grid cell coordinates"""
     cx = int(pos.x // cell_size)
     cy = int(pos.y // cell_size)
     return cx, cy
 
 def cell_to_world_center(cx, cy, cell_size):
-    """Converts grid cell to world position (center of cell)"""
     x = cx * cell_size + cell_size // 2
     y = cy * cell_size + cell_size // 2
     return Vector2(x, y)
 
 def neighbors_for(cx, cy, grid):
-    """Gets valid neighboring cells for pathfinding"""
     rows = len(grid)
     cols = len(grid[0])
     nbrs = []
     
-    # Check all 8 directions
     for dy in (-1, 0, 1):
         for dx in (-1, 0, 1):
             if dx == 0 and dy == 0:
@@ -1096,16 +941,11 @@ def neighbors_for(cx, cy, grid):
     return nbrs
 
 def heuristic(a, b):
-    """Estimates distance between two points for A* pathfinding"""
     (ax, ay) = a
     (bx, by) = b
     return math.hypot(bx - ax, by - ay)
 
 def a_star(grid, start, goal, max_nodes=25000):
-    """
-    A* pathfinding algorithm
-    Finds the shortest path from start to goal avoiding obstacles
-    """
     if start == goal:
         return [start]
     
@@ -1137,7 +977,6 @@ def a_star(grid, start, goal, max_nodes=25000):
             return None  # Path too complex
         
         if current == goal:
-            # Reconstruct path
             path = [current]
             while current in came_from:
                 current = came_from[current]
@@ -1161,7 +1000,6 @@ def a_star(grid, start, goal, max_nodes=25000):
 # ===================== ENEMY CLASS =====================
 
 class Enemy(pygame.sprite.Sprite):
-    """Enemy that chases player during day, flees during night"""
     def __init__(self, pos, nav_grid, cell_size, anims, frame_durations):
         super().__init__()
         self.anims = anims
@@ -1171,17 +1009,14 @@ class Enemy(pygame.sprite.Sprite):
         self.frame_idx = 0
         self.last_frame_time = pygame.time.get_ticks()
         
-        # Set initial animation
         self.current_frames = self.anims[self.state][self.facing]
         self.image = self.current_frames[self.frame_idx]
         self.rect = self.image.get_rect(center=pos)
         self.mask = pygame.mask.from_surface(self.image)
         
-        # Physics
         self.pos = Vector2(pos)
         self.vel = Vector2(0, 0)
         
-        # Pathfinding
         self.nav_grid = nav_grid
         self.cell_size = cell_size
         self.path = []
@@ -1191,18 +1026,15 @@ class Enemy(pygame.sprite.Sprite):
         self.recalc_interval = PATH_RECALC_INTERVAL
         self.last_player_cell = None
         
-        # Behavior modes
         self.mode = 'chase'  # 'chase', 'flee', or 'halt'
         self.hit = False
         self.hit_time = 0
 
     def request_path_to(self, player_pos, current_time):
-        """Calculates path to chase or flee from player"""
         pcx, pcy = world_to_cell(player_pos, self.cell_size)
         scx, scy = world_to_cell(self.pos, self.cell_size)
         now = current_time
         
-        # Don't recalculate too often
         if (now - self.last_recalc) < self.recalc_interval:
             return
         
@@ -1239,17 +1071,14 @@ class Enemy(pygame.sprite.Sprite):
         else:
             return  # No pathfinding in halt mode
         
-        # Find path
         path_cells = a_star(self.nav_grid, (scx, scy), goal)
         if not path_cells:
             self.path = []
             self.path_idx = 0
             return
         
-        # Convert to world coordinates
         world_path = [cell_to_world_center(cx, cy, self.cell_size) for (cx, cy) in path_cells]
         
-        # Simplify path (remove unnecessary waypoints)
         compressed = []
         for i, pt in enumerate(world_path):
             if i == 0 or i == len(world_path)-1:
@@ -1271,11 +1100,9 @@ class Enemy(pygame.sprite.Sprite):
         self.path_idx = 0
 
     def update_animation(self):
-        """Updates enemy animation frame"""
         now = pygame.time.get_ticks()
         speed = self.vel.length()
         
-        # Choose animation state
         prev_state = self.state
         self.state = 'run' if speed > 4.0 else 'idle'
         
@@ -1284,7 +1111,6 @@ class Enemy(pygame.sprite.Sprite):
         
         self.current_frames = self.anims[self.state].get(self.facing, self.anims[self.state]['down'])
         
-        # Calculate frame duration
         base = self.frame_durations.get(self.state, 120)
         ratio = min(1.0, speed / ENEMY_MAX_SPEED)
         scale = 1.2 - 0.9 * ratio
@@ -1298,15 +1124,12 @@ class Enemy(pygame.sprite.Sprite):
             self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, dt, player, obstacles_group, all_enemies, current_time):
-        """Updates enemy movement and behavior"""
         if self.hit:
-            # Fade out and disable collision when hit
             return  # Don't move if caught
         
         # Get path to/from player
         self.request_path_to(player.pos, current_time)
         
-        # Calculate separation force (avoid other enemies)
         sep = Vector2(0, 0)
         for other in all_enemies:
             if other is self:
@@ -1318,7 +1141,6 @@ class Enemy(pygame.sprite.Sprite):
         if sep.length_squared() > 0:
             sep = sep.normalize() * (SEPARATION_FORCE * dt)
         
-        # Obstacle avoidance - smooth steering (inverse-square falloff)
         avoid = Vector2(0, 0)
         avoid_radius = max(self.cell_size * 0.8, 32)
         avoid_force = 600.0
@@ -1351,7 +1173,6 @@ class Enemy(pygame.sprite.Sprite):
                 if desired.length_squared() > 0:
                     target_vel = desired.normalize() * ENEMY_MAX_SPEED
 
-        # Steering: combine path steer + separation + avoidance
         steer = target_vel - self.vel
         steer += sep
         steer += avoid
@@ -1363,7 +1184,6 @@ class Enemy(pygame.sprite.Sprite):
         if self.vel.length() > ENEMY_MAX_SPEED:
             self.vel.scale_to_length(ENEMY_MAX_SPEED)
 
-        # Integrate movement with soft obstacle collision (slide instead of teleport)
         next_pos = self.pos + self.vel * dt
         next_rect = self.rect.copy()
         next_rect.center = (int(next_pos.x), int(next_pos.y))
@@ -1445,7 +1265,6 @@ def place_enemies(count, avoid_pos, min_dist, world_size, nav_grid, cell_size, e
     return enemies
 
 
-# ------------------------------ MAIN LOOP ------------------------------
 
 def main():
     pygame.init()
@@ -1476,20 +1295,16 @@ def main():
         pygame.draw.rect(surf, (0, 0, 0), surf.get_rect(), 2)
         return surf
 
-    # Build player day animations
     player_anims = build_animations_from_master(MASTER_SHEET, FRAME_WIDTH, FRAME_HEIGHT, PLAYER_SHEET_LAYOUT, scale=SHEET_SCALE)
     
-    # Build night animations (separate file: assets/player/player_night.png)
     player_night_path = os.path.join(ASSET_DIR, 'player', 'player_night.png')
     player_night_anims = build_animations_from_master(player_night_path, 48, FRAME_HEIGHT, PLAYER_NIGHT_LAYOUT, scale=SHEET_SCALE)
 
-    # Build transition animations (separate file: assets/player/ntransition.png)
     trans_path = os.path.join(ASSET_DIR, 'player', 'ntransition.png')
     trans_anims = build_animations_from_master(trans_path, FRAME_WIDTH, FRAME_HEIGHT, PLAYER_TRANSITION_LAYOUT, scale=SHEET_SCALE)
 
     player_start = (WORLD_SIZE[0] // 2, WORLD_SIZE[1] // 2)
     
-    # Create a copy of day animations for the player (so we don't modify the original)
     player_day_anims = {state: {facing: frames[:] for facing, frames in dirs.items()} for state, dirs in player_anims.items()}
     
     player = Player(player_day_anims, player_start, frame_durations=FRAME_DURATION, audio_manager=audio)
@@ -1516,10 +1331,8 @@ def main():
     OBSTACLE_ASSET_PAIRS = [(tree_base, tree_top), (rock_base, rock_top),(box1_base,box1),(box2_base,box2),(mkst_base,mkst),(pray_base,pray_top)]
     obstacles = place_obstacles(OBSTACLE_COUNT, player_start, OBSTACLE_MIN_DIST, WORLD_SIZE, OBSTACLE_ASSET_PAIRS)
 
-    # build nav grid
     nav_grid = build_nav_grid(WORLD_SIZE, NAV_CELL_SIZE, obstacles, expand_cells=NAV_EXPAND_CELLS)
 
-    # discover enemy sprite sheets
     enemy_anims_list = []
     if os.path.isdir(ENEMY_SPRITES_DIR):
         for f in os.listdir(ENEMY_SPRITES_DIR):
@@ -1603,12 +1416,10 @@ def main():
                 else:
                     game_state = 'menu'
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-                # Handle cutscene progression
                 if game_state == 'intro_cutscene' and current_cutscene:
                     if current_cutscene.finished:
                         game_state = 'playing'
                         current_cutscene = None
-                        # Start day music
                         audio.play_music(MUSIC_DAY, MUSIC_VOLUME['day'], loops=-1)
                     else:
                         current_cutscene.skip()
@@ -1616,7 +1427,6 @@ def main():
                     if current_cutscene.finished:
                         game_state = 'playing'
                         current_cutscene = None
-                        # Resume night phase
                         night_phase = 'idle_halt'
                         night_phase_timer = TRANSITION_MS / 1000.0
                     else:
@@ -1625,8 +1435,6 @@ def main():
                 mx, my = event.pos
                 if game_state == 'menu':
                     if start_btn.collidepoint(mx, my):
-                        # start the game (reset world)
-                        # Create fresh copy of day animations for new game
                         player_fresh_anims = {state: {facing: frames[:] for facing, frames in dirs.items()} for state, dirs in player_anims.items()}
                         player = Player(player_fresh_anims, player_start, frame_durations=FRAME_DURATION, audio_manager=audio)
                         obstacles = place_obstacles(OBSTACLE_COUNT, player_start, OBSTACLE_MIN_DIST, WORLD_SIZE, OBSTACLE_ASSET_PAIRS)
@@ -1637,10 +1445,8 @@ def main():
                         night_phase = 'none'
                         night_phase_timer = 0.0
                         night_cutscene_shown = False
-                        # Start with intro cutscene
                         current_cutscene = create_intro_cutscene(screen, SCREEN_SIZE, font)
                         game_state = 'intro_cutscene'
-                        # Stop menu music, will start day music after cutscene
                         audio.fade_out_music(500)
                 elif game_state in ['won', 'died']:
                     if back_btn.collidepoint(mx, my):
@@ -1879,23 +1685,17 @@ def main():
                             en.vel *= -0.3
                         break
 
-            # camera update
             camera.update(player.rect, player.vel)
 
-            # Get sky color for current time of day
             sky_color = get_sky_color(day_timer, DAY_LENGTH, NIGHT_LENGTH)
 
-            # Draw world
             screen.fill(sky_color)  # Fill with sky color as background
             
-            # Draw ground texture
             ground.draw(screen, camera.offset)
 
-            # draw base obstacles
             for ob in obstacles:
                 screen.blit(ob.base_image, camera.apply(ob.collision_rect).topleft)
 
-            # draw enemies (y-sort); apply red overlay if hit
             for en in sorted(enemies, key=lambda e: e.pos.y):
                 img = en.image.copy()
                 if en.hit:
@@ -1904,7 +1704,6 @@ def main():
                     img.blit(overlay, (0, 0), special_flags=pygame.BLEND_RGBA_ADD)
                 screen.blit(img, camera.apply(en.rect).topleft)
 
-            # draw player with flash
             player_draw_img = player.image.copy()
             if pygame.time.get_ticks() < player.flash_until:
                 overlay = pygame.Surface(player_draw_img.get_size(), pygame.SRCALPHA)
@@ -1912,18 +1711,15 @@ def main():
                 player_draw_img.blit(overlay, (0, 0), special_flags=pygame.BLEND_RGBA_ADD)
             screen.blit(player_draw_img, camera.apply(player.rect).topleft)
 
-            # draw top parts
             for ob in obstacles:
                 if ob.top_image:
                     screen.blit(ob.top_image, camera.apply(ob.top_rect).topleft)
 
-            # night darkness overlay
             if is_night:
                 dark = pygame.Surface(SCREEN_SIZE, pygame.SRCALPHA)
                 dark.fill((0, 0, 0, DARK_ALPHA))
                 screen.blit(dark, (0, 0))
 
-            # Sky gradient bar at top of screen
             gradient_height = 60
             gradient_surf = pygame.Surface((SCREEN_SIZE[0], gradient_height), pygame.SRCALPHA)
             for y in range(gradient_height):
@@ -1932,14 +1728,12 @@ def main():
                 pygame.draw.line(gradient_surf, color, (0, y), (SCREEN_SIZE[0], y))
             screen.blit(gradient_surf, (0, 0))
 
-            # UI: hearts
             padding = 8
             for i in range(player.hearts):
                 x = padding + i * (heart_img.get_width() + 4)
                 y = padding
                 screen.blit(heart_img, (x, y))
 
-            # UI: stamina bar
             bar_w = 160
             bar_h = 14
             bar_x = SCREEN_SIZE[0] - bar_w - 12
@@ -1951,10 +1745,8 @@ def main():
             stext = font.render("Stamina", True, (255, 255, 255))
             screen.blit(stext, (bar_x - 86, bar_y - 2))
             
-            # Apply post-processing shader effects
             shader.apply_effects(screen)
 
-            # check win/lose conditions
             if player.hearts <= 0:
                 game_state = 'died'
                 # Stop movement sounds and play death music
